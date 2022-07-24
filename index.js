@@ -20,7 +20,7 @@ function initialize() {
   buildGrid();
   initDropButtons();
   initButtons();
-  opponent = new Player(1)
+  opponent = new Player(1, 2)
 }
 
 function clearScreen() {
