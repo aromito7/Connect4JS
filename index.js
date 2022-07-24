@@ -1,20 +1,26 @@
 const ROWS = 6;
 const COLS = 7;
 
-let board = []
-let active = Array(COLS).fill(0)
+let display = []
+let board = Array(ROWS).fill().map(col => Array(COLS).fill(0))
+let active = Array(COLS).fill(5)
 
 const TIME_STEP = 75;
 let INTERVAL_POINTER = null;
 
-const currentPlayer = 1
+let opponent
+let currentPlayer = 1
+let previousHover
 
-
+function getCurrentColor(){
+  return currentPlayer === 1 ? 'black' : 'red'
+}
 
 function initialize() {
   buildGrid();
-  buildButtons();
-  //initButtons();
+  initDropButtons();
+  initButtons();
+  opponent = new Player(1)
 }
 
 function clearScreen() {
@@ -51,10 +57,33 @@ function initButtons() {
   next.addEventListener("click", () => nextState());
 }
 
-const columnDrop = function(player, column){
-  console.log(column, active[column], board)
+const pressButton = function(player, column){
+  //console.log(column, active[column], board)
   //board[active[column]][column].setAttribute("class", player === 1 ? "black" : "red")
-  return () => console.log(`Hello Player ${player}.  You've selected ${column}, ${active[column]}`)
+  return () => {
+    columnDrop(player, column)
+    columnDrop(currentPlayer, opponent.decide(board, active))
+  }
+}
+
+const columnDrop = function(player, column){
+  if(currentPlayer && currentPlayer !== player) return
+  const [y, x] = [active[column], column]
+  //console.log(`Hello Player ${player}.  You've selected ${x}, ${y}`)
+  display[y][x].setAttribute("class", player === 1 ? "black" : "red")
+  board[y][x] = player
+  active[column]--
+  previousHover = null
+  currentPlayer = 3 - currentPlayer
+}
+
+const columnHover = function(player, column){
+  return () => {
+    const [y , x] = [active[column], column]
+    display[y][x].setAttribute("class", player === 1 ? "grey" : "pink")
+    if(previousHover) previousHover.setAttribute("class", "empty")
+    previousHover = display[y][x]
+  }
 }
 
 function buildGrid() {
@@ -63,28 +92,29 @@ function buildGrid() {
     const row = []
     for (let x = 0; x < COLS; x++) {
       const cell = document.createElement("div");
-      cell.setAttribute("class", y === ROWS - 1 ? "active" : "empty");
+      cell.setAttribute("class", "empty");
       cell.setAttribute("id", `${x},${y}`);
-      cell.addEventListener("click",
-			    columnDrop(currentPlayer, x))
+      //cell.addEventListener("click", pressButton(currentPlayer, x))
       grid.appendChild(cell);
       row.push(cell)
     }
-    board.push(row)
+    display.push(row)
   }
+  //display = display.reverse()
+  console.log(board)
 }
 
-function buildButtons(){
+function initDropButtons(){
   const buttonRow = document.getElementById("dropButtons");
   for(let x = 0; x < COLS; x++){
     const button = document.createElement("button")
     button.setAttribute("class", "dropButton")
     button.setAttribute("id", x)
-    button.addEventListener("click", columnDrop(currentPlayer, x, board))
+    button.addEventListener("click", pressButton(1, x));
+    button.addEventListener("mouseover", columnHover(1, x));
     buttonRow.appendChild(button)
     console.log(`Building button ${x}`)
   }
-  console.log(board)
 }
 
 window.onload = initialize;
