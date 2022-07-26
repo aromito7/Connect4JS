@@ -28,6 +28,16 @@ html, body {
     caret-color: transparent;
 }
 
+.endGame{
+    font-size: 48px;
+    font-family: serif;
+    color: black;
+    background-color: none;
+    position: absolute;
+    justify-self: center;
+    margin-top: auto;
+}
+
 #container {
     display: flex;
     flex-direction: column;
@@ -146,6 +156,7 @@ h1 {
     background-color: #EE7;
     color: #333;
 }
+
 
 .on {
     font-family: 'VT323', monospace;

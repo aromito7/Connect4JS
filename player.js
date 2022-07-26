@@ -17,7 +17,7 @@ class Player{
         return validMoves[Math.floor(Math.random() * validMoves.length)]
     }
 
-    static largestChainInDirection([x, y], [dx, dy], board, player){
+    static longestChainInDirection([x, y], [dx, dy], board, player){
         let chain = 0
 
         for(let i = 1; i <= 3; i++){
@@ -35,17 +35,16 @@ class Player{
         return chain
     }
 
-    largestChainAtLocation([x, y], board, player){
-    if(y < 0) return -1
-    for(let [dx, dy] of directions){
-        const chain = Player.largestChainInDirection([x, y], [dx, dy], board, player)
+    static longestChainAtLocation([x, y], board, player){
+        if(y < 0) return -1
+        let max = 0
+        const directions = [[0, 1], [1, 1], [1, 0], [1, -1]]
+        for(let [dx, dy] of directions){
+            const chain = Player.longestChainInDirection([x, y], [dx, dy], board, player)
 
-        if(chain >= 3) {
-            //console.log([x, y], [dx, dy], chain)
-            return x
+            max = chain > max ? chain : max
         }
-    }
-            //console.log(chain)
+    return max
     }
 
     hasImmediateWin(board, active, player){
@@ -54,15 +53,16 @@ class Player{
         for(let x = 0; x < active.length; x++){
             y = active[x]
             if(y < 0) continue
+            if(Player.longestChainAtLocation([x, y], board, player) >= 3) return x
+            /*
             for(let [dx, dy] of directions){
                 const chain = Player.largestChainInDirection([x, y], [dx, dy], board, player)
 
                 if(chain >= 3) {
-                    //console.log([x, y], [dx, dy], chain)
                     return x
                 }
             }
-                //console.log(chain)
+            */
         }
         return -1
     }

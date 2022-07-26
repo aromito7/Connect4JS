@@ -2,6 +2,23 @@ var assert = require('assert');
 var Player = require('../player')
 //const {checkForWin} = require('../index')
 describe('decide', function () {
+  const AI = new Player(1, 2)
+
+  const active1 = [4, 4, 4, 5, 4, 4, 4]
+  const board1 = [[0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [2, 2, 2, 0, 1, 1, 1]];
+  describe('largestChainAtLocation', function(){
+    it('should detect three in a row for both players', function () {
+      assert.equal(Player.longestChainAtLocation([3, 5], board1, 2), 3);
+      assert.equal(Player.longestChainAtLocation([3, 5], board1, 1), 3);
+    });
+  });
+
+
   describe('hasImmediateWin', function () {
     const AI = new Player(1, 2)
 
