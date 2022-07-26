@@ -41,10 +41,9 @@ class Player{
         const directions = [[0, 1], [1, 1], [1, 0], [1, -1]]
         for(let [dx, dy] of directions){
             const chain = Player.longestChainInDirection([x, y], [dx, dy], board, player)
-
             max = chain > max ? chain : max
         }
-    return max
+        return max
     }
 
     hasImmediateWin(board, active, player){

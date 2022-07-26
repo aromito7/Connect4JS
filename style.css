@@ -36,6 +36,7 @@ html, body {
     position: absolute;
     justify-self: center;
     margin-top: auto;
+    display: none;
 }
 
 #container {

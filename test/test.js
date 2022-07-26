@@ -11,10 +11,23 @@ describe('decide', function () {
                   [0, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0],
                   [2, 2, 2, 0, 1, 1, 1]];
+
+  const active2 = [4, 4, 4, 2, 2, 3, 4]
+  const board2 = [[0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 1, 2, 0, 0],
+                  [0, 0, 0, 1, 1, 2, 0],
+                  [2, 2, 2, 1, 1, 2, 1]];
+
   describe('largestChainAtLocation', function(){
     it('should detect three in a row for both players', function () {
       assert.equal(Player.longestChainAtLocation([3, 5], board1, 2), 3);
       assert.equal(Player.longestChainAtLocation([3, 5], board1, 1), 3);
+    });
+    it('should detect three in a row for both players', function () {
+      assert.equal(Player.longestChainAtLocation([3, 2], board2, 2), 2);
+      assert.equal(Player.longestChainAtLocation([3, 2], board2, 1), 3);
     });
   });
 

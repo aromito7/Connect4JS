@@ -1,3 +1,4 @@
+//const Player = require("./player");
 
 const ROWS = 6;
 const COLS = 7;
@@ -63,9 +64,9 @@ function initButtons() {
   next.addEventListener("click", () => nextState());
 }
 
-function checkForWin([x, y], display, player){
-  const chain = Player.longestChainAtLocation([x, y], display, player)
-  console.log(chain)
+function checkForWin([x, y], board, player){
+  const chain = Player.longestChainAtLocation([x, y], board, player)
+  console.log(chain, [x,y], board, player)
   if(chain >= 3){
     return player
   }
@@ -74,7 +75,7 @@ function checkForWin([x, y], display, player){
 
 function endGame(player){
   const dropButtons = document.getElementById("dropButtons")
-  const message = document.getElementById("endGame").innerHTML(player === 1 ? "You Lose!" : "You Win")
+  document.getElementById("endGame").innerHTML = player === 1 ? "You Lose!" : "You Win"
   dropButtons.setAttribute("display", "none")
 }
 
@@ -83,7 +84,7 @@ const pressButton = function(player, column){
   //board[active[column]][column].setAttribute("class", player === 1 ? "black" : "red")
   return () => {
     let recentMove = columnDrop(player, column)
-    let result = checkForWin(recentMove, display, 2)
+    let result = checkForWin(recentMove, board, 1)
     if(result >= 0){
       endGame(player)
       return
@@ -146,5 +147,3 @@ function initDropButtons(){
 }
 
 window.onload = initialize;
-
-module.exports = checkForWin
