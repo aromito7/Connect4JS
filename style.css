@@ -18,7 +18,7 @@
 
 html, body {
     display: absolute;
-    background-color: #02F;
+    background-image: linear-gradient(to bottom right, red, black);
     color: #BBB;
     margin: 0;
     font-family: 'VT323', monospace;
@@ -39,6 +39,7 @@ html, body {
 #app {
     /* border: 1px solid #BBB; */
     /*background-color: #00A;*/
+
 }
 
 #grid {
@@ -105,8 +106,13 @@ h1 {
 
 .toolbar {
     display: flex;
-    justify-content: center;
-    width: 350px;
+    margin-top: 10px;
+    justify-content: space-around;
+    width: 420px;
+}
+
+.toolbar > button{
+    border-radius: 5px;
 }
 
 #dropButtons{
