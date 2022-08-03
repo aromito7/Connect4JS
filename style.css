@@ -28,15 +28,12 @@ html, body {
     caret-color: transparent;
 }
 
-.endGame{
+#endGame{
     font-size: 48px;
     font-family: serif;
     color: black;
-    background-color: none;
     position: absolute;
-    justify-self: center;
     margin-top: auto;
-    display: none;
 }
 
 #container {

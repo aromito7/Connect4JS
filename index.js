@@ -4,24 +4,29 @@ const ROWS = 6;
 const COLS = 7;
 
 let display = []
-let board = Array(ROWS).fill().map(col => Array(COLS).fill(0))
-let active = Array(COLS).fill(5)
+let board
+let active
 
-const TIME_STEP = 75;
 let INTERVAL_POINTER = null;
 
 let opponent
 let currentPlayer = 1
+let gameOver = false
 let previousHover
 
 function initialize() {
   buildGrid();
   initDropButtons();
   initButtons();
+  board = Array(ROWS).fill().map(col => Array(COLS).fill(0))
+  active = Array(COLS).fill(5)
   opponent = new Player(1, 2)
+
 }
 
 function resetGame(){
+  document.querySelectorAll(".dropButton").forEach(child => child.style.visibility = "visible")
+  document.getElementById("endGame").innerText = ""
   board = Array(ROWS).fill().map(col => Array(COLS).fill(0))
   active = Array(COLS).fill(5)
   const grid = document.getElementById("grid");
@@ -48,49 +53,47 @@ function startGame() {
   resetGame()
 }
 
-function stopGame() {
-  const start = document.getElementById("start");
-  start.setAttribute("class", "off");
-  start.innerHTML = "START";
-  clearInterval(INTERVAL_POINTER);
-}
 
 function initButtons() {
-  const clear = document.getElementById("clear");
-  const next = document.getElementById("next");
+  //const clear = document.getElementById("clear");
+  //const next = document.getElementById("next");
   const start = document.getElementById("start");
   start.addEventListener("click", () => startGame());
-  clear.addEventListener("click", () => clearScreen());
-  next.addEventListener("click", () => nextState());
+  //clear.addEventListener("click", () => clearScreen());
+  //  next.addEventListener("click", () => nextState());
 }
 
 function checkForWin([x, y], board, player){
   const chain = Player.longestChainAtLocation([x, y], board, player)
   console.log(chain, [x,y], board, player)
-  if(chain >= 3){
-    return player
-  }
-  return -1
+
+  return chain >= 3? 1 : 0
 }
 
 function endGame(player){
-  const dropButtons = document.getElementById("dropButtons")
-  document.getElementById("endGame").innerHTML = player === 1 ? "You Lose!" : "You Win"
-  dropButtons.setAttribute("display", "none")
+  gameOver = true
+  const dropButtons = document.querySelectorAll(".dropButton")
+  const endMessage = document.getElementById("endGame")
+  endMessage.innerText = player === 2 ? "You Lose!" : "You Win"
+  //endMessage.setAttribute("display", "visible")
+  dropButtons.forEach(child => child.style.visibility = "hidden")
 }
 
 const pressButton = function(player, column){
   //console.log(column, active[column], board)
   //board[active[column]][column].setAttribute("class", player === 1 ? "black" : "red")
   return () => {
+    if(gameOver) return
     let recentMove = columnDrop(player, column)
-    let result = checkForWin(recentMove, board, 1)
-    if(result >= 0){
-      endGame(player)
+    if(checkForWin(recentMove, board, 1)){
+      endGame(1)
       return
     }
-    columnDrop(currentPlayer, opponent.decide(board, active))
-
+    recentMove = columnDrop(currentPlayer, opponent.decide(board, active))
+    if(checkForWin(recentMove, board, 2)){
+      endGame(2)
+      return
+    }
   }
 }
 
@@ -108,6 +111,7 @@ const columnDrop = function(player, column){
 
 const columnHover = function(player, column){
   return () => {
+    if(gameOver) return
     const [y , x] = [active[column], column]
     display[y][x].setAttribute("class", player === 1 ? "grey" : "pink")
     if(previousHover) previousHover.setAttribute("class", "empty")
