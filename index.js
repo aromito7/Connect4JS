@@ -50,6 +50,7 @@ function clearScreen() {
 function startGame() {
   const start = document.getElementById("start");
   start.innerHTML = "New Game";
+  gameOver = false
   resetGame()
 }
 

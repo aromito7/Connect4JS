@@ -137,16 +137,16 @@ describe('decide', function () {
   describe('wontCauseImmediateWin', function () {
     const AI = new Player(1, 2)
 
-    const active1 = [5, 1, 0, 0, 1, 2, 4]
-    const board1 = [[0, 0, 0, 0, 0, 0, 0],
+    const active1 = [5, 1, -1, -1, 1, 2, 4]
+    const board1 = [[0, 0, 2, 1, 0, 0, 0],
                     [0, 0, 1, 2, 0, 0, 0],
                     [0, 2, 2, 1, 1, 0, 0],
                     [0, 2, 2, 1, 1, 1, 0],
                     [0, 1, 1, 1, 2, 2, 0],
                     [0, 2, 1, 2, 1, 2, 2]];
 
-    const active2 = [0, 1, 4, 2, 5, 2, 1]
-    const board2 = [[0, 0, 0, 0, 0, 0, 0],
+    const active2 = [-1, 1, 4, 2, 5, 2, 1]
+    const board2 = [[1, 0, 0, 0, 0, 0, 0],
                     [2, 0, 0, 0, 0, 0, 0],
                     [1, 2, 0, 0, 0, 0, 1],
                     [1, 1, 0, 1, 0, 1, 2],
@@ -156,14 +156,46 @@ describe('decide', function () {
 
 
     it('should avoid moves that give opponent immediate win on the end', function () {
-      assert.equal(AI.wontCauseImmediateWin(board1, active1, 1).toString(), [2, 3, 4].toString());
-      assert.equal(AI.wontCauseImmediateWin(board1, active1, 2).toString(), [1, 2, 3, 5, 6]);
+      assert.equal(AI.wontCauseImmediateWin(board1, active1, 1).toString(), [4].toString());
+      assert.equal(AI.wontCauseImmediateWin(board1, active1, 2).toString(), [1, 5, 6].toString());
     });
 
     it('should avoid moves that give opponent immediate win in the middle', function () {
-      assert.equal(AI.wontCauseImmediateWin(board2, active2, 1).toString(), [0, 1, 3, 5, 6].toString());
-      assert.equal(AI.wontCauseImmediateWin(board2, active2, 2).toString(), [0, 1, 3, 5, 6].toString());
+      assert.equal(AI.wontCauseImmediateWin(board2, active2, 1).toString(), [1, 3, 5, 6].toString());
+      assert.equal(AI.wontCauseImmediateWin(board2, active2, 2).toString(), [1, 3, 5, 6].toString());
     });
 
+  });
+
+  describe('findsLongestPotentialPath', function () {
+    const AI = new Player(1, 2)
+
+    const active1 = [5, 5, 5, 4, 5, 5, 5]
+    const board1 = [[0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 0, 0, 0]];
+
+    const active2 = [4, 4, 4, 5, 5, 4, 4]
+    const board2 = [[0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0],
+                    [1, 2, 2, 0, 0, 1, 1]];
+
+
+
+
+    it('should avoid moves that give opponent immediate win on the end', function () {
+      assert.equal(AI.maximalPotentialPath(board1, active1, 1).toString(), [0, 1, 2, 3, 4, 5, 6].toString());
+      assert.equal(AI.maximalPotentialPath(board1, active1, 2).toString(), [0, 1, 2, 3, 4, 5, 6].toString());
+    });
+    it('should avoid moves that give opponent immediate win on the end', function () {
+      assert.equal(AI.maximalPotentialPath(board2, active2, 1).toString(), [3, 4].toString());
+      assert.equal(AI.maximalPotentialPath(board2, active2, 2).toString(), [3, 4].toString());
+    });
   });
 });

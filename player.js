@@ -5,14 +5,16 @@ class Player{
         this.num = playerNumber
     }
 
-    decide(board, active){
+    decide(board, active, player = this.player){
         const winImmediately = this.hasImmediateWin(board, active, this.num)
         if(winImmediately >= 0) return winImmediately
 
         const blockOpponentWin = this.hasImmediateWin(board, active, 3 - this.num)
         if(blockOpponentWin >= 0) return blockOpponentWin
 
+
         let validMoves = this.wontCauseImmediateWin(board, active, 3 - this.num)
+            .filter(move => active[move] >= 0)
 
         return validMoves[Math.floor(Math.random() * validMoves.length)]
     }
@@ -35,6 +37,7 @@ class Player{
         return chain
     }
 
+
     static longestChainAtLocation([x, y], board, player){
         if(y < 0) return -1
         let max = 0
@@ -44,6 +47,27 @@ class Player{
             max = chain > max ? chain : max
         }
         return max
+    }
+
+
+    maximalPotentialPaths(board, active, player){
+        let y
+        const directions = [[0, 1], [1, 1], [1, 0], [1, -1]]
+        for(let x = 0; x < active.length; x++){
+            y = active[x]
+            if(y < 0) continue
+            if(Player.longestChainAtLocation([x, y], board, player) >= 3) return x
+            /*
+            for(let [dx, dy] of directions){
+                const chain = Player.largestChainInDirection([x, y], [dx, dy], board, player)
+
+                if(chain >= 3) {
+                    return x
+                }
+            }
+            */
+        }
+        return -1
     }
 
     hasImmediateWin(board, active, player){
@@ -95,7 +119,7 @@ class Player{
             }
         }
 
-        return output.filter(num => num !== -1)
+        return output.filter((num, i) => num !== -1 && active[i] >= 0)
     }
 
 }
