@@ -49,7 +49,7 @@ function clearScreen() {
 
 function startGame() {
   const start = document.getElementById("start");
-  start.innerHTML = "New Game";
+  start.innerHTML = "NEW GAME";
   gameOver = false
   resetGame()
 }

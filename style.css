@@ -21,7 +21,7 @@ html, body {
     background-image: linear-gradient(to bottom right, red, black);
     color: #BBB;
     margin: 0;
-    font-family: 'VT323', monospace;
+    font-family: serif;
     font-size: 28px;
     height: 100%;
     width: 100%;
@@ -147,14 +147,14 @@ h1 {
 
 #clear {
     border: 1px solid #FFF;
-    font-family: 'VT323', monospace;
+    font-family: serif;
     font-size: 24px;
     background-color: #800;
     color: #FFF;
 }
 
 #next {
-    font-family: 'VT323', monospace;
+    font-family: serif;
     font-size: 24px;
     background-color: #EE7;
     color: #333;
@@ -162,14 +162,14 @@ h1 {
 
 
 .on {
-    font-family: 'VT323', monospace;
+    font-family: serif;
     font-size: 24px;
     background-color: #800;
     color: #FFF;
 }
 
 .off {
-    font-family: 'VT323', monospace;
+    font-family: serif;
     font-size: 24px;
     background-color: #0C5;
     color: #333;
