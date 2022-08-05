@@ -66,7 +66,7 @@ function initButtons() {
 
 function checkForWin([x, y], board, player){
   const chain = Player.longestChainAtLocation([x, y], board, player)
-  console.log(chain, [x,y], board, player)
+  //console.log(chain, [x,y], board, player)
 
   return chain >= 3? 1 : 0
 }
@@ -135,7 +135,7 @@ function buildGrid() {
     display.push(row)
   }
   //display = display.reverse()
-  console.log(board)
+  //console.log(board)
 }
 
 function initDropButtons(){
